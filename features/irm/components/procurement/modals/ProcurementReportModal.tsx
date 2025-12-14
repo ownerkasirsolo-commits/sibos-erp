@@ -1,9 +1,9 @@
 
 import React, { useMemo } from 'react';
-import Modal from '@/src/components/common/Modal';
+import Modal from '@/components/common/Modal';
 import { PieChart, TrendingUp, DollarSign, Package, Download, Printer, ShoppingCart } from 'lucide-react';
-import CompactNumber from '@/src/components/common/CompactNumber';
-import { PurchaseOrder } from '@/src/features/irm/types';
+import CompactNumber from '@/components/common/CompactNumber';
+import { PurchaseOrder } from '@/features/irm/types';
 
 interface ProcurementReportModalProps {
     isOpen: boolean;
