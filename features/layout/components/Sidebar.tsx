@@ -1,3 +1,4 @@
+// Fix types import vercel
 import React from 'react';
 import { 
   Settings, LogOut, PanelLeftClose, PanelRightClose, ChevronDown, Building2, Store, CheckCircle2, Globe, Laptop, MapPin
