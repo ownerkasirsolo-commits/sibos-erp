@@ -1,0 +1,9 @@
+{
+  "name": "SIBOS - Smart Integrated Back Office System",
+  "description": "Ekosistem digital bisnis all-in-one (POS, CRM, HRM, AI) dengan tampilan Glassmorphism modern.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}
