@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { BusinessType } from '../../../types';
 import { BusinessConfig, ModuleId } from '../../irm/types';
 import { Camera, Save, Globe, Info, AlertTriangle, Trash2, Lock, ChevronDown, Handshake, ShieldCheck, Phone, MessageCircle, Layers, Monitor, LayoutTemplate, CheckCircle2 } from 'lucide-react';
-import GlassPanel from '../../../../components/common/GlassPanel';
-import GlassInput from '../../../../components/common/GlassInput';
-import { useGlobalContext } from '../../../../context/GlobalContext';
+import GlassPanel from '../../../components/common/GlassPanel';
+import GlassInput from '../../../components/common/GlassInput';
+import { useGlobalContext } from '../../../context/GlobalContext';
 
 interface GeneralBusinessSettingsProps {
   businessConfig: BusinessConfig;
