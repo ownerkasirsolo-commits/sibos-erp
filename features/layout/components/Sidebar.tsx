@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 import { 
   Settings, LogOut, PanelLeftClose, PanelRightClose, ChevronDown, Building2, Store, CheckCircle2, Globe, Laptop, MapPin, Megaphone
 } from 'lucide-react';
-import { useGlobalContext } from '../../../../context/GlobalContext';
+import { useGlobalContext } from '../../../context/GlobalContext';
 import { BusinessType } from '../../../../types';
 
 // Define menu structure again or import from a shared constants file
