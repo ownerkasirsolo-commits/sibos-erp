@@ -7,7 +7,7 @@ import { useAICompanion, AICompanionPanel } from '../ai';
 import { useGlobalContext } from '../../context/GlobalContext';
 
 import Header from './components/Header';
-import Sidebar from './components/Sidebar';
+import AppSidebar from './components/AppSidebar';
 import GlobalSearchModal from './components/GlobalSearchModal';
 
 // Define menu structure again for label lookup
@@ -83,7 +83,7 @@ const Layout: React.FC<LayoutProps> = ({ children, user, onLogout, currentView, 
 
       {!isFullScreen && (
         <aside className={`hidden lg:flex flex-col border-l border-white/5 bg-black/20 backdrop-blur-xl transition-all duration-300 relative z-30 ${layoutManager.isSidebarOpen ? 'w-72' : 'w-24'}`}>
-          <Sidebar 
+          <AppSidebar 
             isExpanded={layoutManager.isSidebarOpen}
             onToggle={layoutManager.setIsSidebarOpen}
             onLogout={onLogout}
@@ -97,7 +97,7 @@ const Layout: React.FC<LayoutProps> = ({ children, user, onLogout, currentView, 
         <div className="fixed inset-0 z-50 lg:hidden">
            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm animate-in fade-in" onClick={() => layoutManager.setIsMobileMenuOpen(false)}></div>
            <div className="absolute right-0 top-0 bottom-0 w-72 bg-[#0f172a] border-l border-white/10 shadow-2xl animate-in slide-in-from-right duration-300 flex flex-col">
-              <Sidebar isExpanded={true} onToggle={() => {}} onLogout={onLogout} currentView={currentView} {...layoutManager} />
+              <AppSidebar isExpanded={true} onToggle={() => {}} onLogout={onLogout} currentView={currentView} {...layoutManager} />
            </div>
         </div>
       )}
