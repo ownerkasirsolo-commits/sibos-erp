@@ -1,4 +1,3 @@
-
 {
   "name": "sibos---smart-integrated-back-office-system",
   "private": true,
@@ -10,12 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^19.2.1",
-    "lucide-react": "^0.555.0",
     "@google/genai": "^1.31.0",
-    "react-dom": "^19.2.1",
     "dexie": "^4.0.8",
-    "dexie-react-hooks": "^1.1.7"
+    "dexie-react-hooks": "^1.1.7",
+    "lucide-react": "^0.555.0",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

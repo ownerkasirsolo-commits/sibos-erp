@@ -1,13 +1,20 @@
-
-import React, { useMemo } from 'react';
+import React from 'react';
 import { 
-  Settings, LogOut, PanelLeftClose, PanelRightClose, ChevronDown, Building2, Store, CheckCircle2, Globe, Laptop, MapPin, Megaphone
+  Settings, LogOut, PanelLeftClose, PanelRightClose, ChevronDown, Building2, Store, CheckCircle2, Globe, Laptop, MapPin
 } from 'lucide-react';
 import { useGlobalContext } from '../../../context/GlobalContext';
-import { BusinessType } from '../../../../types';
 
-// Define menu structure again or import from a shared constants file
-import { PieChart, ShoppingCart, CalendarDays, Ticket, ChefHat, MonitorPlay, Tv, Box, Warehouse, Calculator, Users, Globe as GlobeIcon, UserCog, BrainCircuit, Wallet } from 'lucide-react';
+// Import Icons Menu
+import { PieChart, ShoppingCart, CalendarDays, Ticket, ChefHat, MonitorPlay, Tv, Box, Warehouse, Calculator, Users, UserCog, BrainCircuit, Wallet } from 'lucide-react';
+
+const analyticsItem = { id: 'dashboard', label: 'Analitik', icon: PieChart };
+const menuGroups = [
+    { label: 'Front Office', items: [ { id: 'pos', label: 'Point of Sales', icon: ShoppingCart }, { id: 'reservations', label: 'Reservasi Meja', icon: CalendarDays }, { id: 'queue', label: 'Antrian (Queue)', icon: Ticket } ] },
+    { label: 'Display & Dapur', items: [ { id: 'kds', label: 'Kitchen Display', icon: ChefHat }, { id: 'cds', label: 'Customer Display', icon: MonitorPlay }, { id: 'signage', label: 'Digital Signage', icon: Tv } ] },
+    { label: 'Produk & Gudang', items: [ { id: 'products', label: 'Menu & Produk', icon: Box }, { id: 'irm', label: 'Stok & Bahan (IRM)', icon: Warehouse } ] },
+    { label: 'Manajemen', items: [ { id: 'accounting', label: 'Akuntansi', icon: Calculator }, { id: 'crm', label: 'Pelanggan (CRM)', icon: Users }, { id: 'hrm', label: 'Pegawai (HRM)', icon: UserCog }, { id: 'wallet', label: 'Dompet (Wallet)', icon: Wallet } ] },
+    { label: 'Ekspansi', items: [ { id: 'omnichannel', label: 'Omnichannel', icon: Globe }, { id: 'website', label: 'Website Usaha', icon: Laptop }, { id: 'google', label: 'Google Business', icon: MapPin } ] } 
+];
 
 interface SidebarProps {
     isExpanded: boolean;
@@ -21,8 +28,13 @@ interface SidebarProps {
     setExpandedBizId: (id: string | null) => void;
     openGroupLabel: string | null;
     toggleGroup: (label: string) => void;
-    handleSwitchOutlet: (bizId: string, outletId: string) => void;
+    handleSwitchOutlet: (bizId: string | null, outletId: string | null) => void;
     handleNavigation: (view: string) => void;
+    availableBusinesses: any[];
+    activeBusinessId: string | null | undefined;
+    activeOutletId: string | null | undefined;
+    activeBusiness: any;
+    activeOutlet: any;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ 
@@ -30,9 +42,10 @@ const Sidebar: React.FC<SidebarProps> = ({
     isOutletSwitcherOpen, setIsOutletSwitcherOpen,
     expandedBizId, setExpandedBizId,
     openGroupLabel, toggleGroup,
-    handleSwitchOutlet, handleNavigation
+    handleSwitchOutlet, handleNavigation,
+    availableBusinesses, activeBusinessId, activeOutletId, activeBusiness, activeOutlet
 }) => {
-    const { availableBusinesses, activeBusinessId, activeOutletId, activeBusiness, activeOutlet, currentUser, businessConfig } = useGlobalContext();
+    const { currentUser } = useGlobalContext();
     // Robust check for Owner role (case insensitive)
     const isOwner = currentUser?.role?.toLowerCase() === 'owner';
 
@@ -55,77 +68,6 @@ const Sidebar: React.FC<SidebarProps> = ({
         }
     }
     const switcherLabel = getSwitcherLabel();
-
-    // Filter Menu Groups based on active modules AND Business Type
-    const filteredMenuGroups = useMemo(() => {
-        const activeModules = businessConfig?.activeModules || ['pos', 'products', 'crm', 'irm', 'hrm', 'accounting']; // Default modules if undefined
-        const isRetail = activeBusiness?.type === BusinessType.RETAIL;
-
-        const analyticsItem = { id: 'dashboard', label: 'Analitik', icon: PieChart };
-        
-        // Dynamic Labels based on Business Type
-        const menuStructure = [
-            { 
-                label: 'Front Office', 
-                items: [ 
-                    { id: 'pos', label: 'Point of Sales', icon: ShoppingCart }, 
-                    { id: 'reservations', label: 'Reservasi Meja', icon: CalendarDays }, 
-                    { id: 'queue', label: 'Antrian (Queue)', icon: Ticket } 
-                ] 
-            },
-            { 
-                label: isRetail ? 'Display Toko' : 'Display & Dapur', 
-                items: [ 
-                    { id: 'kds', label: 'Kitchen Display', icon: ChefHat }, 
-                    { id: 'cds', label: 'Customer Display', icon: MonitorPlay }, 
-                    { id: 'signage', label: 'Digital Signage', icon: Tv } 
-                ] 
-            },
-            { 
-                label: isRetail ? 'Barang & Gudang' : 'Dapur & Logistik', 
-                items: [ 
-                    { id: 'products', label: isRetail ? 'Katalog Produk' : 'Menu & Resep', icon: Box }, 
-                    { id: 'irm', label: isRetail ? 'Stok Barang (IRM)' : 'Bahan Baku (IRM)', icon: Warehouse } 
-                ] 
-            },
-            { 
-                label: 'Manajemen', 
-                items: [ 
-                    { id: 'accounting', label: 'Akuntansi', icon: Calculator }, 
-                    { id: 'crm', label: 'Pelanggan (CRM)', icon: Users }, 
-                    { id: 'hrm', label: 'Pegawai (HRM)', icon: UserCog }, 
-                    { id: 'wallet', label: 'Dompet (Wallet)', icon: Wallet } 
-                ] 
-            },
-            { 
-                label: 'Digital & Marketing', 
-                items: [ 
-                    { id: 'omnichannel', label: 'Omnichannel', icon: Globe }, 
-                    { id: 'marketing', label: 'Pusat Pemasaran', icon: Megaphone }, 
-                    { id: 'website', label: 'Website Usaha', icon: Laptop }, 
-                    { id: 'google', label: 'Google Business', icon: MapPin } 
-                ] 
-            } 
-        ];
-
-        return menuStructure.map(group => ({
-            ...group,
-            items: group.items.filter(item => {
-                // 1. Check if module is activated in config (Mock check for now)
-                // For demo simplicity, we assume essential modules are always active
-                
-                // 2. Business Type Specific Filtering
-                if (isRetail) {
-                    // Retail doesn't need Table Reservations or Kitchen Display
-                    if (['reservations', 'kds'].includes(item.id)) return false;
-                }
-
-                return true; 
-            })
-        })).filter(group => group.items.length > 0);
-    }, [businessConfig, activeBusiness]);
-
-    const analyticsItem = { id: 'dashboard', label: 'Analitik', icon: PieChart };
 
     return (
         <>
@@ -234,7 +176,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                     {currentView === analyticsItem.id && !isExpanded && (<div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-orange-500 rounded-r-full"></div>)}
                 </button>
                 
-                {filteredMenuGroups.map((group, index) => {
+                {menuGroups.map((group, index) => {
                    const isOpen = isExpanded ? (openGroupLabel === group.label) : false;
                    return (
                      <div key={index}>
@@ -263,7 +205,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
             {isExpanded && (
                 <div className="p-4 text-center animate-in fade-in delay-200">
-                    <p className="text-[10px] text-gray-600">SIBOS v2.7.3 Enterprise</p>
+                    <p className="text-[10px] text-gray-600">SIBOS v2.7.2 AI</p>
                 </div>
             )}
         </>
